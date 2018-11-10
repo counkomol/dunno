@@ -1,6 +1,7 @@
 from torch.utils.data import Dataset
 from typing import Tuple
 import numpy as np
+import pdb
 import torch
 
 
@@ -33,16 +34,10 @@ class SomeDataset(Dataset):
             torch.tensor(self.y_vec[idx]).unsqueeze(0),
         )
 
+    def as_vectors(self) -> Tuple[np.ndarray, np.ndarray]:
+        """Returns generated data as x and y vectors."""
+        return self.x_vec, self.y_vec
+
 
 def get_dataset():
     return SomeDataset()
-
-
-def get_data():
-    x_lim = (-4, 4)
-    samples = 1024
-    rng = np.random.RandomState(666)
-    x_vec = rng.random_sample(samples)*(x_lim[1] - x_lim[0]) + x_lim[0]
-    y_vec, y_noise = real(x_vec)
-    y_vec += (y_noise**0.5)*rng.standard_normal(samples)
-    return x_vec, y_vec
